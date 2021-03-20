@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+ <h1> {% if video %}Modification de la{% else %}Ajout d'une{% endif %} vidéo</h1>
+    <div id="nav-bar">
+        <a
+            href="{{ path('video_list') }}"
+            class="btn-circle" title="Retour"><span class="icon arrow-circle-left"></span>
+        </a>
+    </div>
+    <main>
+        <div class="block">
+            {{ form_start(form)}}
+                <div class="block-body">
+                    {{ form_row(form.title)}}
+                    {{ form_row(form.program)}}
+                    {{ form_row(form.broadcastAt)}}
+                    {{ form_row(form.channel)}}
+                    {{ form_row(form.url)}}
+                </div>
+                <div class="block-footer">
+                    <button class="btn btn-primary" type="submit">Valider</button>
+                </div>
+            {{ form_end(form)}}
+        </div>
+    </main>
+{% endblock %}

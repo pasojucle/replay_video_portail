@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    {% if videos is not empty %}
+        <div class="block">
+            <div class="block-body">
+                <h2>Vidéos</h2>
+                <ul>
+                    {% for video in videos %}
+                        <li class="row video-list">
+                            <span class="col-1">
+                                <a href="{{ path('video_edit', {'video': video.id}) }}" title="Modifier">
+                                    <span class="badge primary icon pencil-alt"></span>
+                                </a>
+                            </span>
+                            <span>{{ video.title}}</span>
+                            <span>{{ video.broadcastAt | date('d/m/y')}}</span>
+                            <span>{{ video.program}}</span>
+                            <span>{{ video.channel}}</span>
+                            <span>{{ video.status}}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+    <a href="{{ path('video_edit') }}" class="btn btn-primary">Ajouter une vidéo</a>
+{% endblock %}
