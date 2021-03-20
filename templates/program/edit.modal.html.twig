@@ -1,0 +1,18 @@
+{% extends 'base_modal.html.twig' %}
+
+{% set action = path('program_edit') %}
+{% set button_text = 'Ajouter' %}
+{% set title = 'Ajouter un programe' %}
+{% if program is not null %}
+    {% set action = path('program_edit', {'program': program.id}) %}
+    {% set button_text = 'Modifier' %}
+    {% set title = 'Modifier un programe' %}
+{% endif %}
+
+{% block modal_title %}{{ title }}{% endblock %}
+{% block body %}
+    {{ form_row(form.title) }}
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

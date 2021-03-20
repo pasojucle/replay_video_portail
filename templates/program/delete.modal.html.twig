@@ -1,0 +1,11 @@
+{% extends 'base_modal.html.twig' %}
+    {% set action = path('program_delete', {'program': program.id}) %}
+    {% set button_text = 'Supprimer' %}
+{% block modal_title %}Supprimer un programe{% endblock %}
+{% block body %}
+    <p>Etes vous sûr de supprimer le programe {{ program.title}} ?</p>
+{% endblock %}
+{% block footer %}
+
+    {{ parent() }}
+{% endblock %}
