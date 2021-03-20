@@ -1,0 +1,11 @@
+{% extends 'base_modal.html.twig' %}
+    {% set action = path('channel_delete', {'channel': channel.id}) %}
+    {% set button_text = 'Supprimer' %}
+{% block modal_title %}Supprimer une chaîne{% endblock %}
+{% block body %}
+    <p>Etes vous sûr de supprimer le chaîne {{ channel.title}} ?</p>
+{% endblock %}
+{% block footer %}
+
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="block">
+        <div class="block-body">
+            <h2>Chaînes</h2>
+            <ul>
+                {% for channel in channels %}
+                    <li>
+                        <a href="{{ path('channel_edit', {'channel': channel.id}) }}" title="Modifier"
+                            data-toggle="modal" data-type="primary">
+                            <span class="badge primary icon pencil-alt"></span>
+                        </a>
+                        <a href="{{ path('channel_delete', {'channel': channel.id}) }}" title="Supprimer"
+                            class="modal-trigger" data-toggle="modal" data-type="danger">
+                            <span class="badge alert-warning icon times"></span>
+                        </a>
+                        {{ channel.title}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <a href="{{ path('channel_edit') }}" class="btn btn-primary" data-toggle="modal" data-type="primary">Ajouter une chaîne</a>
+{% endblock %}
