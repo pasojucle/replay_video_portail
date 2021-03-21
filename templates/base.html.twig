@@ -7,6 +7,7 @@
             <link rel="stylesheet" type="text/css" href="/css/select2.min.css">
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" type="text/css" href="/css/main.css">
+            <link rel="stylesheet" type="text/css" href="/css/fontawesome.css">
             <link rel="stylesheet" type="text/css" href="/css/modal.css">
         {% endblock %}
 
@@ -24,7 +25,16 @@
     </head>
     <body>
         <div id="container">
-            {% block body %}{% endblock %}
+            <div id="nav-bar">
+                {% set menus = {'dashboard':'Tableau de bord', 'video_list':'Videos', 'program_list':'Programmes', 'channel_list':'Chaînes'} %}
+                {% for route, label in menus %}
+                    <a href="{{ path(route) }}" class="item{% if app.request.attributes.get('_route') == route %} active{% endif %}">{{ label }}</a>
+                {% endfor %}
+                <a href="" class="item">Logs</a>
+            </div>
+            <main>
+                {% block body %}{% endblock %}
+            </main>
         </div>
     </body>
 </html>

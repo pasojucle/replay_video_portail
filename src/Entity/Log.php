@@ -25,7 +25,7 @@ class Log
 
     /**
      * @ORM\ManyToOne(targetEntity=Video::class, inversedBy="logs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $video;
 

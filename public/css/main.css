@@ -19,9 +19,20 @@ body {
     line-height: 1.6em;
 }
 #nav-bar {
-    position: absolute;
-    left: -100px;
-    top: 200px;
+    background-color: var(--dark-color);
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+#nav-bar .item {
+    text-align: center;
+    color: var(--primary-color);
+    padding: 5px;
+}
+
+#nav-bar .item:hover, #nav-bar .item.active {
+    background-color: var(--secondary-color);
+    color: var(--light-color);
 }
 #container {
     margin: 0 auto;
@@ -110,25 +121,6 @@ a.li-btn, .btn-circle {
 li > a.li-btn:hover {
     background-color: var(--background-color)
 }
-/*
-.icon-play::before {
-    content: '\0023F5';
-}*/
-.icon-pause::before {
-    content: '\0023F8';
-}
-.icon-stop::before {
-    content: '\0023F9';
-}
-.icon-edit::before {
-    content: '\01F589';
-}
-.icon-list::before {
-    content: '\01F5CF';
-}
-.icon-back::before {
-    content: '\0023F4';
-}
 .btn {
     display: inline-block;
     padding: 10px;
@@ -180,6 +172,10 @@ li > a.li-btn:hover {
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 15px;
+}
+.block-body {
+    max-height: calc(100vh - 300px);
+    overflow: auto;
 }
 .block-footer {
     text-align: right;

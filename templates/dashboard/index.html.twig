@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="block">
+        <div class="block-body">
+            <h2>Vidéos à téléchager</h2>
+            <ul>
+                {% if videosToDownload is not empty %}
+                    {% for video in videosToDownload %}
+                        <li>
+                            <li class="row video-list">
+                                <span class="col-1">
+                                    <a href="{{ path('video_edit', {'video': video.id}) }}" title="Modifier">
+                                        <span class="badge primary icon pencil-alt"></span>
+                                    </a>
+                                </span>
+                                <span>{{ video.title}}</span>
+                                <span>{{ video.broadcastAt | date('d/m/y')}}</span>
+                                <span>{{ video.program}}</span>
+                                <span>{{ video.channel}}</span>
+                                <span>{{ video.status}}</span>
+                            </li>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li>Aucunes vidéo à télécharger</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="block">
+        <div class="block-body">
+            <h2>Vidéos en erreur</h2>
+            <ul>
+                {% if videosWithError is not empty %}
+                    {% for video in videosWithError %}
+                        <li>
+                            <li class="row video-list">
+                                <span class="col-1">
+                                    <a href="{{ path('video_edit', {'video': video.id}) }}" title="Modifier">
+                                        <span class="badge primary icon pencil-alt"></span>
+                                    </a>
+                                </span>
+                                <span>{{ video.title}}</span>
+                                <span>{{ video.broadcastAt | date('d/m/y')}}</span>
+                                <span>{{ video.program}}</span>
+                                <span>{{ video.channel}}</span>
+                                <span>{{ video.status}}</span>
+                            </li>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li>Aucunes vidéo en erreur</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+        <div class="block">
+        <div class="block-body">
+            <h2>Dernière mise à jour de raspbian</h2>
+            <ul>
+                {% for log in lastRaspbianUpdate %}
+                    <li>
+                        <li class="row video-list">
+                            <span>{{ log.createdAt | date('d/m/y')}}</span>
+                            <span>{{ log.route }}</span>
+                            <span>{{ log.status}}</span>
+                            <span>{% if log.video %}{{ log.video.title}}{% endif %}</span>
+                        </li>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}

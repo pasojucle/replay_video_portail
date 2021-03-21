@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DateTime;
+use App\Entity\Log;
 use App\Entity\Channel;
 use App\Entity\Program;
 use App\Repository\VideoRepository;
@@ -33,7 +35,7 @@ class WebserviceController extends AbstractController
     {
      
         return new JsonResponse([
-            'programs' => $videoRepository->findVideoToDownload(),
+            'programs' => $videoRepository->findVideosToDownload(true),
         ]);
     }
 
@@ -129,6 +131,38 @@ class WebserviceController extends AbstractController
                 $channel->setTitle($title)
                     ->setIdRaspberry($idRaspberry);
                 $this->entityManager->persist($channel);
+                $this->entityManager->flush();
+
+                return new Response('', 200);
+            }
+            
+        }
+        
+        return new Response('Format de donnée incorrect', 400);
+    }
+
+
+    /**
+     * @Route("/ws/raspberry/upadate", name="ws_raspbbery_update")
+     */
+    public function logs(
+        Request $request,
+        VideoRepository $videoRepository
+    ): Response
+    {
+        $content = $request->getContent();
+
+        $data = json_decode($content, true);
+
+        if (null !== $data && array_key_exists('status', $data)) {
+            $status = filter_var($data['status'], FILTER_VALIDATE_INT);
+
+            if (false !==$status) {
+                $log = new Log();
+                $log->setRoute($request->get('_route'))
+                    ->setCreatedAt(new DateTime())
+                    ->setStatus($status);
+                $this->entityManager->persist($log);
                 $this->entityManager->flush();
 
                 return new Response('', 200);

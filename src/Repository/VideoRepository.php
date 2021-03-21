@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,5 +37,34 @@ class VideoRepository extends ServiceEntityRepository
         ;
 
         return new Paginator($qb);
+    }
+
+    public function findVideosToDownload(bool $scarlar=false): array
+    {
+        $qb = $this->createQueryBuilder('v');
+        if ($scarlar){
+            $qb->select(['v','p','c']);
+        } 
+               
+        $qb->leftJoin('v.program', 'p')
+        ->leftJoin ('v.channel', 'c')
+        ->where(
+            (new Expr)->eq('v.status', 0)
+        )
+        ;
+        return ($scarlar) ? $qb->getQuery()->getScalarResult() : $qb->getQuery()->getResult();
+        
+    }
+
+    public function findVideosWithError(): array
+    {
+        return $this->createQueryBuilder('v')
+        ->leftJoin('v.program', 'p')
+        ->leftJoin ('v.channel', 'c')
+        ->where(
+            (new Expr)->gt('v.status', 2)
+        )
+        ->getQuery()
+        ->getResult();
     }
 }
