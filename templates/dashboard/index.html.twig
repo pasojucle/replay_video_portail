@@ -20,7 +20,7 @@
                                 <span>{{ video.broadcastAt | date('d/m/y')}}</span>
                                 <span>{{ video.program}}</span>
                                 <span>{{ video.channel}}</span>
-                                <span>{{ video.status}}</span>
+                                <span>{{ constant('App\\Entity\\Enum\\StatusEnum::STATUS')[video.status] }}</span>
                             </li>
                         </li>
                     {% endfor %}
@@ -47,7 +47,7 @@
                                 <span>{{ video.broadcastAt | date('d/m/y')}}</span>
                                 <span>{{ video.program}}</span>
                                 <span>{{ video.channel}}</span>
-                                <span>{{ video.status}}</span>
+                                <span>{{ constant('App\\Entity\\Enum\\StatusEnum::STATUS')[video.status] }}</span>
                             </li>
                         </li>
                     {% endfor %}
@@ -66,7 +66,7 @@
                         <li class="row video-list">
                             <span>{{ log.createdAt | date('d/m/y')}}</span>
                             <span>{{ log.route }}</span>
-                            <span>{{ log.status}}</span>
+                            <span>{{ constant('App\\Entity\\Enum\\StatusEnum::STATUS')[log.status] }}</span>
                             <span>{% if log.video %}{{ log.video.title}}{% endif %}</span>
                         </li>
                     </li>

@@ -249,7 +249,7 @@ li {
     grid-template-areas: "video-detail thumbnail"
 }
 .video-list {
-    grid-template-columns: 1fr 3fr 2fr 3fr 2fr 1fr;
+    grid-template-columns: 1fr 3fr 2fr 3fr 2fr 2fr;
     grid-gap: 10px;
 }
 .col-3 {

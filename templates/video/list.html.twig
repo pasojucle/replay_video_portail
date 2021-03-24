@@ -15,11 +15,11 @@
                                     <span class="badge primary icon pencil-alt"></span>
                                 </a>
                             </span>
-                            <span>{{ video.title}}</span>
-                            <span>{{ video.broadcastAt | date('d/m/y')}}</span>
-                            <span>{{ video.program}}</span>
-                            <span>{{ video.channel}}</span>
-                            <span>{{ video.status}}</span>
+                            <span>{{ video.title }}</span>
+                            <span>{{ video.broadcastAt | date('d/m/y') }}</span>
+                            <span>{{ video.program }}</span>
+                            <span>{{ video.channel }}</span>
+                            <span>{{ constant('App\\Entity\\Enum\\StatusEnum::STATUS')[video.status] }}</span>
                         </li>
                     {% endfor %}
                 </ul>
