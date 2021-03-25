@@ -131,7 +131,7 @@ li > a.li-btn:hover {
     border: none;
     font-size: 1em;
 }
-.alert-warning {
+.alert-danger {
     color: var(--danger-color);
 }
 .success {
@@ -151,7 +151,7 @@ li > a.li-btn:hover {
     text-align: center;
     margin-right: 10px;
 }
-.badge.alert-warning {
+.badge.alert-danger {
     background-color: var(--danger-color);
 }
 .badge.success {

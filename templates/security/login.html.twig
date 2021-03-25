@@ -6,14 +6,9 @@
 <div class="block">
     <form method="post">
         <div class="block-body">
-
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-
             {% if app.user %}
                 <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    Vous êtes connectez comme {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
                 </div>
             {% endif %}
 
@@ -26,6 +21,13 @@
                 <label for="inputPassword">Mot de passe</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" required>
             </div>
+            {% if error %}
+                <div class="form-group">
+                    <span class="label"></span>
+                    <div class="alert alert-danger value">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                </div>
+            {% endif %}
+            
             <input type="hidden" name="_csrf_token"
                 value="{{ csrf_token('authenticate') }}"
             >
