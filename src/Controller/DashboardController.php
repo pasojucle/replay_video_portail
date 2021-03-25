@@ -10,8 +10,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
 {
+        /**
+     * @Route("/", name="home")
+     */
+    public function index(
+    ): Response
+    {
+        return $this->redirect($this->generateUrl('dashboard'));
+    }
+
     /**
-     * @Route("/", name="dashboard")
+     * @Route("/dashboard", name="dashboard")
      */
     public function dashboard(
         VideoRepository $videoRepository,
