@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="block">
+        <div class="block-body">
+            <h2>Journal des événements</h2>
+            <ul>
+                {% for log in logs %}
+                    <li class="row log-list">
+                        <span>{{ log.createdAt | date('m/d/y')}}</span>
+                        <span>{{ log.route | trans }}</span>
+                        <span>
+                            {% if log.entityId is not null %}
+                                {{ log.entity.title }}
+                            {% endif %}
+                        </span>
+                        <span>
+                            {% if log.status is not null %}
+                                {{ constant('App\\Entity\\Enum\\StatusEnum::STATUS')[log.status] }}
+                            {% endif %}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+

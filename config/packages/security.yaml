@@ -47,3 +47,5 @@ security:
         - { path: ^/program, roles: ROLE_ADMIN }
         - { path: ^/channel, roles: ROLE_ADMIN }
         - { path: ^/video, roles: ROLE_ADMIN }
+        - { path: ^/logs, roles: ROLE_ADMIN }
+

@@ -47,19 +47,9 @@ class Video
     private $channel;
 
     /**
-     * @ORM\OneToMany(targetEntity=Log::class, mappedBy="video")
-     */
-    private $logs;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $status = 0;
-
-    public function __construct()
-    {
-        $this->logs = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -122,36 +112,6 @@ class Video
     public function setChannel(?Channel $channel): self
     {
         $this->channel = $channel;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Log[]
-     */
-    public function getLogs(): Collection
-    {
-        return $this->logs;
-    }
-
-    public function addLog(Log $log): self
-    {
-        if (!$this->logs->contains($log)) {
-            $this->logs[] = $log;
-            $log->setVideo($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLog(Log $log): self
-    {
-        if ($this->logs->removeElement($log)) {
-            // set the owning side to null (unless already changed)
-            if ($log->getVideo() === $this) {
-                $log->setVideo(null);
-            }
-        }
 
         return $this;
     }

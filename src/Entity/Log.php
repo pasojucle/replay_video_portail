@@ -22,13 +22,6 @@ class Log
      */
     private $createdAt;
 
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Video::class, inversedBy="logs")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $video;
-
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -38,6 +31,16 @@ class Log
      * @ORM\Column(type="string", length=50)
      */
     private $route;
+
+    /**
+     * @ORM\Column(type="string", length=25, nullable=true)
+     */
+    private $entityName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $entityId;
 
     public function getId(): ?int
     {
@@ -52,18 +55,6 @@ class Log
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getVideo(): ?Video
-    {
-        return $this->video;
-    }
-
-    public function setVideo(?Video $video): self
-    {
-        $this->video = $video;
 
         return $this;
     }
@@ -88,6 +79,42 @@ class Log
     public function setRoute(string $route): self
     {
         $this->route = $route;
+
+        return $this;
+    }
+
+    public function getEntityName(): ?string
+    {
+        return $this->entityName;
+    }
+
+    public function setEntityName(?string $entityName): self
+    {
+        $this->entityName = $entityName;
+
+        return $this;
+    }
+
+    public function getEntityId(): ?int
+    {
+        return $this->entityId;
+    }
+
+    public function setEntityId(?int $entityId): self
+    {
+        $this->entityId = $entityId;
+
+        return $this;
+    }
+
+    public function getEntity()
+    {
+        return $this->entity;
+    }
+
+    public function setEntity($entity): self
+    {
+        $this->entity = $entity;
 
         return $this;
     }

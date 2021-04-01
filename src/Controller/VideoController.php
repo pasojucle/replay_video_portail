@@ -35,7 +35,6 @@ class VideoController extends AbstractController
     {
         $videos = $videoRepository->findList($page);
         $videos = $videoRepository->findAll();
-        dump($videos);
 
         return $this->render('video/list.html.twig', [
             'videos' => $videos,

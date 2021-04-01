@@ -33,7 +33,7 @@ class WebserviceController extends AbstractController
         VideoRepository $videoRepository
     ): JsonResponse
     {
-     
+
         return new JsonResponse([
             'programs' => $videoRepository->findVideosToDownload(true),
         ]);
@@ -57,12 +57,13 @@ class WebserviceController extends AbstractController
 
             if (false !== $id && false !==$status) {
                 $video = $videoRepository->find($id);
-                $video->setStatus($status);
+                if ($video) {
+                                    $video->setStatus($status);
                 $this->entityManager->flush();
 
                 return new Response('', 200);
+                }
             }
-            
         }
         
         return new Response('Format de donnée incorrect', 400);
@@ -143,11 +144,10 @@ class WebserviceController extends AbstractController
 
 
     /**
-     * @Route("/ws/raspberry/upadate", name="ws_raspbbery_update")
+     * @Route("/ws/raspberry/update", name="ws_raspberry_update")
      */
     public function logs(
-        Request $request,
-        VideoRepository $videoRepository
+        Request $request
     ): Response
     {
         $content = $request->getContent();
