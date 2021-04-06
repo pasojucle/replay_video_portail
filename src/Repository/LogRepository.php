@@ -37,4 +37,17 @@ class LogRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+    * @return Log[] Returns an array of Log objects
+    */
+
+    public function findAllDesc()
+    {
+        return $this->createQueryBuilder('l')
+            ->orderBy('l.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

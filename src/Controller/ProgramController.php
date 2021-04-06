@@ -111,7 +111,7 @@ class ProgramController extends AbstractController
         } else {
             $programs = $programRepository->findAll();
         }
-        
+        dump($programs);
         $results = [];
         if (!empty($programs)) {
             foreach($programs as $program) {

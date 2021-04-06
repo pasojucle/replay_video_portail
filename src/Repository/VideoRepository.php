@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,16 +26,40 @@ class VideoRepository extends ServiceEntityRepository
     * @return Video[] Returns an array of Video objects
     */
 
-    public function findList($page = 1): Paginator
+    public function findListFilterded(?array $filters = null): array
     {
-        $qb = $this->createQueryBuilder('v')
+        $qb = $this->createQueryBuilder('v');
+
+        if (array_key_exists('video', $filters) && null !== $filters['video']) {
+            $qb->andWhere($qb->expr()->eq('v', ':video'));
+            $qb->setParameter('video' , $filters['video']);
+        }
+
+        if (array_key_exists('program', $filters) && null !== $filters['program']) {
+            $qb
+                ->join('v.program', 'p')
+                ->andWhere($qb->expr()->eq('p', ':program'));
+            $qb->setParameter('program' , $filters['program']);
+        }
+
+        if (array_key_exists('channel', $filters) && null !== $filters['channel']) {
+            $qb
+                ->join('v.channel', 'c')
+                ->andWhere($qb->expr()->eq('c', ':channel'));
+            $qb->setParameter('channel' , $filters['channel']);
+        }
+
+        if (array_key_exists('status', $filters) && null !== $filters['status']) {
+            $qb->andWhere($qb->expr()->eq('v.status', ':status'));
+            $qb->setParameter('status' , $filters['status']);
+        }
+
+        return $qb
             ->orderBy('v.broadcastAt', 'DESC')
             ->addOrderBy('v.id', 'DESC')
-            ->setFirstResult(($page -1) * self::MAX_RESULT +1)
-            ->setMaxResults(self::MAX_RESULT)
+            ->getQuery()
+            ->getResult()
         ;
-
-        return new Paginator($qb);
     }
 
     public function findVideosToDownload(bool $scarlar=false): array
@@ -66,5 +89,21 @@ class VideoRepository extends ServiceEntityRepository
         )
         ->getQuery()
         ->getResult();
+    }
+
+    /**
+    * @return Program[] Returns an array of Program objects
+    */
+    public function findByTitle($query)
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere(
+                (new Expr)->like('v.title', ':query')
+            )
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('v.title', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }
