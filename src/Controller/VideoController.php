@@ -49,11 +49,9 @@ class VideoController extends AbstractController
      
         }
         $session->set('videoFilters', $filters);
-        dump($filters);  
-        $videos = $videoRepository->findListFilterded($filters);
 
         return $this->render('video/list.html.twig', [
-            'videos' => $videos,
+            'videos' => $videoRepository->findListFilterded($filters),
             'form' => $form->createView(),
         ]);
     }
@@ -75,6 +73,7 @@ class VideoController extends AbstractController
         $form->handleRequest($request);
         if ($request->isMethod('post') && $form->isSubmitted() && $form->isValid()) {
             $video = $form->getData();
+
             $this->entityManager->persist($video);
             $this->entityManager->flush();
 

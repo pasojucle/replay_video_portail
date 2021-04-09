@@ -1,6 +1,6 @@
 $( function() { 
     $('.js-datepicker').datepicker({
-        format: 'yyyy-mm-dd',
+        format: 'yyyy-mm-dd'
     });
 
 } );
@@ -25,7 +25,7 @@ jQuery(function($){
 		isRTL: false,
 		showMonthAfterYear: false,
 		yearSuffix: '',
-		minDate: 0,
+		minDate: '-12M +0D',
 		maxDate: '+12M +0D',
 		numberOfMonths: 1,
 		showButtonPanel: false

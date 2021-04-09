@@ -33,7 +33,13 @@ class WebserviceController extends AbstractController
         VideoRepository $videoRepository
     ): JsonResponse
     {
+        $log = new Log();
+        $log->setCreatedAt(new DateTime())
+            ->setRoute('ws_video_list')
+            ;
 
+        $this->entityManager->persist($log);
+        $this->entityManager->flush();
         return new JsonResponse([
             'programs' => $videoRepository->findVideosToDownload(true),
         ]);

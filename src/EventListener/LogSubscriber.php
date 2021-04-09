@@ -58,7 +58,7 @@ class LogSubscriber implements EventSubscriber
     {
         $entity = $args->getObject();
 
-        if ($entity instanceof Log) {
+        if ($entity instanceof Log && null !== $entity->getEntityName()) {
 
             $logEntity = $this->entityManager->getRepository($entity->getEntityName())->find($entity->getEntityId());
             $entity->setEntity($logEntity);

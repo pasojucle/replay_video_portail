@@ -42,10 +42,33 @@ class LogRepository extends ServiceEntityRepository
     * @return Log[] Returns an array of Log objects
     */
 
-    public function findAllDesc()
+    public function findListFilterded(?array $filters = null): array
     {
-        return $this->createQueryBuilder('l')
-            ->orderBy('l.id', 'DESC')
+        $qb = $this->createQueryBuilder('l');
+
+        if (array_key_exists('createdAt', $filters) && null !== $filters['createdAt']) {
+            $qb->andWhere($qb->expr()->between('l.createdAt', ':dateStart', ':dateEnd'));
+            $createdAt = $filters['createdAt'];
+            $createdAt->setTime(0,0,0);
+            $qb->setParameter('dateStart' , $createdAt->format('Y-m-d  H:i:s'));
+            $createdAt->setTime(23,59,59);
+            $qb->setParameter('dateEnd' , $createdAt->format('Y-m-d  H:i:s'));
+        }
+
+        if (array_key_exists('route', $filters) && null !== $filters['route']) {
+            $qb
+                ->andWhere($qb->expr()->eq('l', ':route'));
+            $qb->setParameter('route' , $filters['route']);
+        }
+
+        if (array_key_exists('status', $filters) && null !== $filters['status']) {
+            $qb->andWhere($qb->expr()->eq('l.status', ':status'));
+            $qb->setParameter('status' , $filters['status']);
+        }
+
+        return $qb
+            ->orderBy('l.createdAt', 'DESC')
+            ->addOrderBy('l.id', 'DESC')
             ->getQuery()
             ->getResult()
         ;

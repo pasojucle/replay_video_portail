@@ -3,13 +3,32 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+    <div class="block ">
+        <h2>Journal des événements</h2>
+        {{ form_start(form)}}
+        <div class="row filter log-list-filter">
+            <span>{{ form_widget(form.createdAt) }}</span>
+            <span>{{ form_widget(form.route)  }}</span>
+            <span>{{ form_widget(form.status) }}</span>
+            <span>
+                <button class="btn btn-lg btn-primary" type="submit">
+                    <span class="icon search"></span>
+                </button>
+            </span>
+            <span>
+                <a class="btn btn-lg btn-alert-danger" href="{{ path('log_list')}}">
+                    <span class="icon times"></span>
+                </a>
+            </span>
+        </div>
+        {{ form_end(form)}}
+    </div>
     <div class="block">
         <div class="block-body">
-            <h2>Journal des événements</h2>
             <ul>
                 {% for log in logs %}
                     <li class="row log-list">
-                        <span>{{ log.createdAt | date('m/d/y')}}</span>
+                        <span>{{ log.createdAt | date('d/m/y')}}</span>
                         <span>{{ log.route | trans }}</span>
                         <span>
                             {% if log.entityId is not null %}

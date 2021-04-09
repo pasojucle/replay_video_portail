@@ -26,8 +26,11 @@ class VideoType extends AbstractType
                 'label' => 'Date de diffusion',
                 'widget' => 'single_text',
                 'html5' => false,
-                'format' => 'dd/mm/yyyy',
-                'attr' => ['class' => 'js-datepicker'],
+                'format' => 'dd/MM/yyyy',
+                'attr' => [
+                    'class' => 'js-datepicker',
+                    'autocomplete' => "off",
+                ],
                 'row_attr' => ['class' => 'form-group'],
             ])
             ->add('program', Select2EntityType::class, [
