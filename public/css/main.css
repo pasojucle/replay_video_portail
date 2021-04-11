@@ -321,6 +321,9 @@ input:disabled:hover {
     display: none;
 }
 
+.row span {
+    overflow: hidden;
+}
 
 @media screen and (max-width: 414px) {
     h1 {
@@ -336,6 +339,8 @@ input:disabled:hover {
         width: 100%;
         background-color: var(--background-color);
         z-index: 2;
+        grid-template-columns: 1fr;
+        text-align: left;
     }
     .btn-circle {
         display: inline-block;
