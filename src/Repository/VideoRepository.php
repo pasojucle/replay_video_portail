@@ -75,7 +75,28 @@ class VideoRepository extends ServiceEntityRepository
             (new Expr)->eq('v.status', 0)
         )
         ;
-        return ($scarlar) ? $qb->getQuery()->getScalarResult() : $qb->getQuery()->getResult();
+
+        $videos = $qb->getQuery()->getResult();
+        if ($scarlar) {
+            $videosArray = [];
+            if (null !== $videos) {
+                foreach($videos as $video) {
+                    $videosArray[] = [
+                        'title' => $video->getTitle(),
+                        'program_id' => $video->getProgram()->getIdRaspberry(),
+                        'program' => $video->getProgram()->getTitle(),
+                        'broadcast_at' => $video->getBroadcastAt(),
+                        'channel_id '=> $video->getChannel()->getIdRaspberry(),
+                        'channel' => $video->getChannel()->getTitle(),
+                        'url' => $video->getUrl(),
+                        'status' => 0,
+                    ];
+                }
+            }
+            return $videosArray;
+        } else { 
+            return $videos;
+        }
         
     }
 

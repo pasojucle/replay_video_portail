@@ -41,7 +41,7 @@ class WebserviceController extends AbstractController
         $this->entityManager->persist($log);
         $this->entityManager->flush();
         return new JsonResponse([
-            'programs' => $videoRepository->findVideosToDownload(true),
+            'videos' => $videoRepository->findVideosToDownload(true),
         ]);
     }
 
