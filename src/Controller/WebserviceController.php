@@ -96,7 +96,7 @@ class WebserviceController extends AbstractController
                 if (false !== $id ) {
                     $program = $programRepository->find($id);
                 } else {
-                    $program = new Channel();
+                    $program = new Program();
                 }
                 $program->setTitle($title)
                     ->setIdRaspberry($idRaspberry);
@@ -133,7 +133,7 @@ class WebserviceController extends AbstractController
                 if (false !== $id ) {
                     $channel = $channelRepository->find($id);
                 } else {
-                    $channel = new Program();
+                    $channel = new Channel();
                 }
                 $channel->setTitle($title)
                     ->setIdRaspberry($idRaspberry);
