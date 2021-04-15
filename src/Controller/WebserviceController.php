@@ -6,9 +6,11 @@ use DateTime;
 use App\Entity\Log;
 use App\Entity\Channel;
 use App\Entity\Program;
+use App\Entity\Video;
 use App\Repository\VideoRepository;
 use App\Repository\ChannelRepository;
 use App\Repository\ProgramRepository;
+use Doctrine\DBAL\Schema\View;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,136 +48,82 @@ class WebserviceController extends AbstractController
     }
 
     /**
-     * @Route("/ws/video/status", name="ws_video_status")
+     * @Route("/ws/video/status/{video}/{status}", name="ws_video_status")
      */
     public function setVideoStatus(
-        Request $request,
-        VideoRepository $videoRepository
+        Video $video,
+        int $status
     ): Response
     {
-        $content = $request->getContent();
+        $video->setStatus($status);
+        $this->entityManager->flush();
 
-        $data = json_decode($content, true);
-
-        if (null !== $data && array_key_exists('id', $data) && array_key_exists('status', $data)) {
-            $id = filter_var($data['id'], FILTER_VALIDATE_INT);
-            $status = filter_var($data['status'], FILTER_VALIDATE_INT);
-
-            if (false !== $id && false !==$status) {
-                $video = $videoRepository->find($id);
-                if ($video) {
-                                    $video->setStatus($status);
-                $this->entityManager->flush();
-
-                return new Response('', 200);
-                }
-            }
-        }
-        
-        return new Response('Format de donnée incorrect', 400);
+        return new Response('', 200);
     }
 
     /**
-     * @Route("/ws/program", name="ws_program")
+     * @Route("/ws/program/{idRaspberry}/{title}/{program}",
+     * defaults={"program": null},
+     * name="ws_program"
+     * )
      */
     public function setProgram(
-        Request $request,
-        ProgramRepository $programRepository
+        int $idRaspberry,
+        string $title,
+        ?Program $program
     ): Response
     {
-        $content = $request->getContent();
-
-        $data = json_decode($content, true);
-
-        if (null !== $data && array_key_exists('id', $data) && array_key_exists('id_raspberry', $data) && array_key_exists('title', $data)) {
-            $id = filter_var($data['id'], FILTER_VALIDATE_INT);
-            $idRaspberry = filter_var($data['id_raspberry'], FILTER_VALIDATE_INT);
-            $title = $data['title'];
-
-            if (false !==$idRaspberry) {
-                if (false !== $id ) {
-                    $program = $programRepository->find($id);
-                } else {
-                    $program = new Program();
-                }
-                $program->setTitle($title)
-                    ->setIdRaspberry($idRaspberry);
-                $this->entityManager->persist($program);
-                $this->entityManager->flush();
-
-                return new Response('', 200);
-            }
-            
+        if (null === $program ) {
+            $program = new Program();
         }
-        
-        return new Response('Format de donnée incorrect', 400);
+        $program->setTitle(urldecode($title))
+            ->setIdRaspberry($idRaspberry);
+        $this->entityManager->persist($program);
+        $this->entityManager->flush();
+
+        return new Response('', 200);
     }
 
 
     /**
-     * @Route("/ws/channel", name="ws_channel")
+     * @Route("/ws/channel/{idRaspberry}/{title}/{channel}",
+     * defaults={"channel": null},
+     * name="ws_channel"
+     * )
      */
     public function setChannel(
-        Request $request,
-        ChannelRepository $channelRepository
+        int $idRaspberry,
+        string $title,
+        ?Channel $channel
     ): Response
     {
-        $content = $request->getContent();
-
-        $data = json_decode($content, true);
-
-        if (null !== $data && array_key_exists('id', $data) && array_key_exists('id_raspberry', $data) && array_key_exists('title', $data)) {
-            $id = filter_var($data['id'], FILTER_VALIDATE_INT);
-            $idRaspberry = filter_var($data['id_raspberry'], FILTER_VALIDATE_INT);
-            $title = $data['title'];
-
-            if (false !==$idRaspberry) {
-                if (false !== $id ) {
-                    $channel = $channelRepository->find($id);
-                } else {
-                    $channel = new Channel();
-                }
-                $channel->setTitle($title)
-                    ->setIdRaspberry($idRaspberry);
-                $this->entityManager->persist($channel);
-                $this->entityManager->flush();
-
-                return new Response('', 200);
-            }
-            
+        if (null === $channel ) {
+            $channel = new Channel();
         }
-        
-        return new Response('Format de donnée incorrect', 400);
+        $channel->setTitle(urldecode($title))
+            ->setIdRaspberry($idRaspberry);
+        $this->entityManager->persist($channel);
+        $this->entityManager->flush();
+
+        return new Response('', 200);
     }
 
 
     /**
-     * @Route("/ws/raspberry/update", name="ws_raspberry_update")
+     * @Route("/ws/raspberry/update/{status}", name="ws_raspberry_update")
      */
     public function logs(
-        Request $request
+        Request $request,
+        int $status
     ): Response
     {
-        $content = $request->getContent();
+        $log = new Log();
+        $log->setRoute($request->get('_route'))
+            ->setCreatedAt(new DateTime())
+            ->setStatus($status);
+        $this->entityManager->persist($log);
+        $this->entityManager->flush();
 
-        $data = json_decode($content, true);
-
-        if (null !== $data && array_key_exists('status', $data)) {
-            $status = filter_var($data['status'], FILTER_VALIDATE_INT);
-
-            if (false !==$status) {
-                $log = new Log();
-                $log->setRoute($request->get('_route'))
-                    ->setCreatedAt(new DateTime())
-                    ->setStatus($status);
-                $this->entityManager->persist($log);
-                $this->entityManager->flush();
-
-                return new Response('', 200);
-            }
-            
-        }
-        
-        return new Response('Format de donnée incorrect', 400);
+        return new Response('', 200);
     }
 }
