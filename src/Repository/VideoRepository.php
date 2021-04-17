@@ -81,12 +81,14 @@ class VideoRepository extends ServiceEntityRepository
             $videosArray = [];
             if (null !== $videos) {
                 foreach($videos as $video) {
+                    $broatcastAt = $video->getBroadcastAt();
                     $videosArray[] = [
+                        'id' => $video->getId(),
                         'title' => $video->getTitle(),
                         'program_id_website' => $video->getProgram()->getId(),
                         'program_id' => $video->getProgram()->getIdRaspberry(),
                         'program' => $video->getProgram()->getTitle(),
-                        'broadcast_at' => $video->getBroadcastAt(),
+                        'broadcast_at' => $broatcastAt->format('YY-m-d'),
                         'channel_id_website'=> $video->getChannel()->getId(),
                         'channel_id'=> $video->getChannel()->getIdRaspberry(),
                         'channel' => $video->getChannel()->getTitle(),
