@@ -58,7 +58,7 @@ class WebserviceController extends AbstractController
         $video->setStatus($status);
         $this->entityManager->flush();
 
-        return new Response('', 200);
+        return new Response(1, 200);
     }
 
     /**
@@ -81,7 +81,7 @@ class WebserviceController extends AbstractController
         $this->entityManager->persist($program);
         $this->entityManager->flush();
 
-        return new Response('', 200);
+        return new Response(1, 200);
     }
 
 
@@ -105,7 +105,7 @@ class WebserviceController extends AbstractController
         $this->entityManager->persist($channel);
         $this->entityManager->flush();
 
-        return new Response('', 200);
+        return new Response(1, 200);
     }
 
 
@@ -124,6 +124,6 @@ class WebserviceController extends AbstractController
         $this->entityManager->persist($log);
         $this->entityManager->flush();
 
-        return new Response('', 200);
+        return new Response(1, 200);
     }
 }
