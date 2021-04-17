@@ -83,7 +83,7 @@ class VideoRepository extends ServiceEntityRepository
                 foreach($videos as $video) {
                     $broatcastAt = $video->getBroadcastAt();
                     $videosArray[] = [
-                        'id' => $video->getId(),
+                        'id_website' => $video->getId(),
                         'title' => $video->getTitle(),
                         'program_id_website' => $video->getProgram()->getId(),
                         'program_id' => $video->getProgram()->getIdRaspberry(),
