@@ -28,7 +28,7 @@
             <ul>
                 {% for log in logs %}
                     <li class="row log-list">
-                        <span>{{ log.createdAt | date('d/m/y')}}</span>
+                        <span>{{ log.createdAt | date('d/m/y h:i:s')}}</span>
                         <span>{{ log.route | trans }}</span>
                         <span>
                             {% if log.entityId is not null %}
