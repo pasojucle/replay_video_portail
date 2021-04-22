@@ -1,0 +1,19 @@
+{% extends 'base_modal.html.twig' %}
+
+{% set action = path('version_edit') %}
+{% set button_text = 'Ajouter' %}
+{% set title = 'Ajouter une version' %}
+{% if version is not null %}
+    {% set action = path('version_edit', {'version': version.id}) %}
+    {% set button_text = 'Modifier' %}
+    {% set title = 'Modifier une version' %}
+{% endif %}
+
+{% block modal_title %}{{ title }}{% endblock %}
+{% block body %}
+    {{ form_row(form.createdAt) }}
+    {{ form_row(form.tag) }}
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

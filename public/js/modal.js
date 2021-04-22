@@ -18,6 +18,9 @@ function showModal(event) {
             setTimeout(function () {
                 //$('.modal-dialog').transition({ top: 100px });
                 $('.modal-dialog').addClass('modal-open');
+                $('.js-datepicker').datepicker({
+                    format: 'yyyy-mm-dd'
+                });
             }, 100);
         }
     });

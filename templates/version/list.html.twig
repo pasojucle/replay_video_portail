@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="block">
+        <div class="block-body">
+            <h2>Version</h2>
+            <ul>
+                {% for version in versions %}
+                    <li class="row version-list">
+                        <span>
+                            <a href="{{ path('version_edit', {'version': version.id}) }}" title="Modifier"
+                                data-toggle="modal" data-type="primary">
+                                <span class="badge primary icon pencil-alt"></span>
+                            </a>
+                        </span>
+                        <span>{{ version.createdAt | date('d/m/Y')}}</span>
+                        <span>{{ version.tag}}</span>
+                        <span>{{ constant('App\\Entity\\Enum\\StatusEnum::STATUS')[version.status] }}</span>
+                        
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <a href="{{ path('version_edit') }}" class="btn btn-primary" data-toggle="modal" data-type="primary">Ajouter une version</a>
+{% endblock %}
