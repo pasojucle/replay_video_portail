@@ -28,15 +28,21 @@
             <ul>
                 {% for log in logs %}
                     <li class="row log-list">
+                    
                         <span>{{ log.createdAt | date('d/m/y H:i:s')}}</span>
                         <span>{{ log.route | trans }}</span>
                         <span>
                             {% if log.entityId is not null %}
-                                {{ log.entity.title }}
+                                {% if attribute(log.entity, 'getTitle') is defined %}
+                                    {{ log.entity.title }}
+                                {% endif %}
+                                {% if attribute(log.entity, 'getTag') is defined %}
+                                    {{ log.entity.tag }}
+                                {% endif %}
                             {% endif %}
                         </span>
                         <span>
-                            {% if log.status is not null %}
+                            {% if log.status is not empty %}
                                 {{ constant('App\\Entity\\Enum\\StatusEnum::STATUS')[log.status] }}
                             {% endif %}
                         </span>

@@ -12,7 +12,16 @@
 {% block modal_title %}{{ title }}{% endblock %}
 {% block body %}
     {{ form_row(form.createdAt) }}
-    {{ form_row(form.tag) }}
+    <div class="form-group">
+    {{ form_label(form.tag) }}
+        <div class="value errors-container">
+            <div class="alert-danger">{{ form_errors(form.tag)}}</div>
+            {{ form_widget(form.tag) }}
+        </div>
+
+    </div>
+    
+
 {% endblock %}
 {% block footer %}
     {{ parent() }}

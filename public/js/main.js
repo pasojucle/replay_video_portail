@@ -2,6 +2,7 @@ $( function() {
     $('.js-datepicker').datepicker({
         format: 'yyyy-mm-dd'
     });
+	$(document).on('submit', 'form[name="version"]', addVersion)
 
 } );
 
@@ -32,3 +33,21 @@ jQuery(function($){
 	};
 	$.datepicker.setDefaults($.datepicker.regional['fr']);
 });
+
+function addVersion(e) {
+	e.preventDefault();
+	const form = $(this);
+		$.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: form.serialize(),
+		dataType: "json",
+        success: function (response) {
+			if (response.redirect === null) {
+				$('.modal').find('form').replaceWith($(response.html).find('form'));
+			} else {
+				window.location.replace(response.redirect);
+			}
+        }
+    });
+}

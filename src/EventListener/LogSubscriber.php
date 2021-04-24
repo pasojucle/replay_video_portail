@@ -6,6 +6,7 @@ use App\Entity\Channel;
 use DateTime;
 use App\Entity\Log;
 use App\Entity\Program;
+use App\Entity\Version;
 use ReflectionClass;
 use App\Entity\Video;
 use Doctrine\ORM\Events;
@@ -72,7 +73,7 @@ class LogSubscriber implements EventSubscriber
         $route = $this->requestStack->getCurrentRequest()->attributes->get('_route');
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
-        if (($entity instanceof Video || $entity instanceof Program ||$entity instanceof Channel)
+        if (($entity instanceof Video || $entity instanceof Program ||$entity instanceof Channel ||$entity instanceof Version)
             && preg_match('#^ws#',$route)) {
             $rc = new ReflectionClass(get_class($entity)); 
             $log = new Log();
@@ -81,7 +82,7 @@ class LogSubscriber implements EventSubscriber
                 ->setEntityName($rc->getName())
                 ->setEntityId($entity->getId())
                 ;
-            if ($entity instanceof Video) {
+            if ($entity instanceof Video || $entity instanceof Version) {
                 $log->setStatus($entity->getStatus());
             }
             $this->entityManager->persist($log);

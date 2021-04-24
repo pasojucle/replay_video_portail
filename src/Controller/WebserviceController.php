@@ -10,6 +10,7 @@ use App\Entity\Video;
 use App\Repository\VideoRepository;
 use App\Repository\ChannelRepository;
 use App\Repository\ProgramRepository;
+use App\Repository\VersionRepository;
 use Doctrine\DBAL\Schema\View;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -112,7 +113,7 @@ class WebserviceController extends AbstractController
     /**
      * @Route("/ws/raspberry/update/{status}", name="ws_raspberry_update")
      */
-    public function logs(
+    public function raspberryUpdate(
         Request $request,
         int $status
     ): Response
@@ -122,6 +123,46 @@ class WebserviceController extends AbstractController
             ->setCreatedAt(new DateTime())
             ->setStatus($status);
         $this->entityManager->persist($log);
+        $this->entityManager->flush();
+
+        return new Response(1, 200);
+    }
+
+
+    /**
+     * @Route("/ws/version/last", name="ws_last_version")
+     */
+    public function getLastVersion(
+        VersionRepository $versionRepository
+    ): Response
+    {
+        $log = new Log();
+        $log->setCreatedAt(new DateTime())
+            ->setRoute('ws_last_version')
+            ;
+
+        $this->entityManager->persist($log);
+        $this->entityManager->flush();
+        return new JsonResponse([
+            'version' => $versionRepository->findLastVersion(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/ws/version/{tag}/{status}", name="ws_version_status")
+     */
+    public function setVersionStatus(
+        Request $request,
+        VersionRepository $versionRepository,
+        string $tag,
+        int $status
+    ): Response
+    {
+        $version = $versionRepository->findOneByTag($tag);
+
+        $version->setStatus($status);
+        $this->entityManager->persist($version);
         $this->entityManager->flush();
 
         return new Response(1, 200);

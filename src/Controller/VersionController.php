@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class VersionController extends AbstractController
 {
@@ -46,20 +47,28 @@ class VersionController extends AbstractController
     {
         $form = $this->createForm(VersionType::class, $version);
 
-        if ($request->isXmlHttpRequest()) {
-            return $this->render('version/edit.modal.html.twig', [
+        $form->handleRequest($request);
+
+        $route = null;
+        if ($request->isMethod('post')) {
+            if ($form->isSubmitted() && $form->isValid()) {
+                $version = $form->getData();
+                $this->entityManager->persist($version);
+                $this->entityManager->flush();
+
+                $route = $this->generateUrl('version_list');
+            }
+
+            $html = $this->renderView('version/edit.modal.html.twig', [
                 'version' => $version,
                 'form' => $form->createView(),
             ]);
+            return new JsonResponse(['html' => $html, 'redirect' => $route]);
         }
 
-        $form->handleRequest($request);
-        if ($request->isMethod('post') && $form->isSubmitted() && $form->isValid()) {
-            $version = $form->getData();
-            $this->entityManager->persist($version);
-            $this->entityManager->flush();
-
-            return $this->redirect($this->generateUrl('version_list'));
-        }
+        return $this->render('version/edit.modal.html.twig', [
+            'version' => $version,
+            'form' => $form->createView(),
+        ]);
     }
 }

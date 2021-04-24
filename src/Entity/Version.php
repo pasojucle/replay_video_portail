@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\VersionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\VersionRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=VersionRepository::class)
+ * @UniqueEntity("tag")
  */
 class Version
 {
@@ -23,7 +25,7 @@ class Version
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private $tag;
 

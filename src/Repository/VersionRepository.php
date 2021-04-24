@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Version;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,12 +24,41 @@ class VersionRepository extends ServiceEntityRepository
     * @return Version[] Returns an array of Version objects
     */
 
-    public function findAllByTagDesc()
+    public function findAllByTagDesc(): array
     {
         return $this->createQueryBuilder('v')
             ->orderBy('v.tag', 'DESC')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    public function findLastVersion(): ?string
+    {
+        $versions = $this->createQueryBuilder('v')
+            ->orderBy('v.tag', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+        $versions = [];
+        $version =  array_shift($versions);
+        if ($version) {
+            return $version->getTag();
+        }
+        
+        return null;
+    }
+
+    public function findOneByTag(string $tag): ?Version
+    {
+        return $this->createQueryBuilder('v')
+            ->where(
+                (new Expr)->eq('v.tag', ':tag')
+            )
+            ->setParameter('tag', $tag)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 }

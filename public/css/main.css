@@ -92,6 +92,14 @@ main {
 .value, .form-group input, .form-group select {
     width: calc(100% - 206px);
 }
+.value input {
+    width: 100%;
+    box-sizing: border-box;
+    margin-left: -5px;
+}
+.value.errors-container {
+    height: unset;
+}
 input.value, .choice {
     color: #444;
 }
