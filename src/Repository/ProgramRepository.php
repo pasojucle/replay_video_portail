@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Program;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Program|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,7 +24,7 @@ class ProgramRepository extends ServiceEntityRepository
     /**
     * @return Program[] Returns an array of Program objects
     */
-    public function findByTitle($query)
+    public function findByTitle($query): array
     {
         return $this->createQueryBuilder('p')
             ->andWhere(
@@ -33,6 +34,34 @@ class ProgramRepository extends ServiceEntityRepository
             ->orderBy('p.title', 'ASC')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    public function findOneByTitle($query): ?Program
+    {
+        try {
+            return $this->createQueryBuilder('p')
+                ->andWhere(
+                    (new Expr)->like('p.title', ':query')
+                )
+                ->setParameter('query', $query)
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+        } catch (QueryException $e) {
+            return null;
+        }
+    }
+
+    public function findOneByIdDevice(int $idDevice): ?Program
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere(
+                (new Expr)->eq('p.idDevice', ':idDevice')
+            )
+            ->setParameter('idDevice', $idDevice)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 }

@@ -2,6 +2,6 @@ ws_video_list: Liste des videos
 ws_video_status: Mise à jour de la vidéo
 ws_program: Mise à jour du programme
 ws_channel: Mise à jour de la chaîne
-ws_raspberry_update: Mis à jour du raspberry
+ws_distri_update: Mis à jour du raspberry
 ws_last_version: Dernière version
 ws_version_status: Mise à jour

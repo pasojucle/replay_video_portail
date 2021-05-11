@@ -21,6 +21,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
     public function notFoundHttpException(ExceptionEvent $event)
     {
         if (preg_match('#\/ws\/#', $event->getRequest()->getRequestUri())) {
+            dump($event->getThrowable());
             $response  =  new Response('Format de donnée incorrect', 400);
             $event->setResponse($response);
         }

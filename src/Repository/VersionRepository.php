@@ -41,7 +41,7 @@ class VersionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-        $versions = [];
+
         $version =  array_shift($versions);
         if ($version) {
             return $version->getTag();

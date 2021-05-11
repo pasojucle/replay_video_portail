@@ -72,7 +72,8 @@ class VideoRepository extends ServiceEntityRepository
         $qb->leftJoin('v.program', 'p')
         ->leftJoin ('v.channel', 'c')
         ->where(
-            (new Expr)->eq('v.status', 0)
+            (new Expr)->eq('v.status', 0),
+            (new Expr)->isNull('v.idDevice')
         )
         ;
 
@@ -86,11 +87,11 @@ class VideoRepository extends ServiceEntityRepository
                         'id_website' => $video->getId(),
                         'title' => $video->getTitle(),
                         'program_id_website' => $video->getProgram()->getId(),
-                        'program_id' => $video->getProgram()->getIdRaspberry(),
+                        'program_id' => $video->getProgram()->getIdDevice(),
                         'program' => $video->getProgram()->getTitle(),
-                        'broadcast_at' => $broatcastAt->format('YY-m-d'),
+                        'broadcast_at' => $broatcastAt->format('Y-m-d'),
                         'channel_id_website'=> $video->getChannel()->getId(),
-                        'channel_id'=> $video->getChannel()->getIdRaspberry(),
+                        'channel_id'=> $video->getChannel()->getIdDevice(),
                         'channel' => $video->getChannel()->getTitle(),
                         'url' => $video->getUrl(),
                         'status' => 0,
@@ -119,7 +120,7 @@ class VideoRepository extends ServiceEntityRepository
     /**
     * @return Program[] Returns an array of Program objects
     */
-    public function findByTitle($query)
+    public function findByTitle($query): array
     {
         return $this->createQueryBuilder('v')
             ->andWhere(
@@ -129,6 +130,18 @@ class VideoRepository extends ServiceEntityRepository
             ->orderBy('v.title', 'ASC')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    public function findOneByIdDevice(int $idDevice): ?Video
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere(
+                (new Expr)->eq('v.idDevice', ':idDevice')
+            )
+            ->setParameter('idDevice', $idDevice)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 }

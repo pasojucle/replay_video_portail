@@ -37,7 +37,7 @@ jQuery(function($){
 function addVersion(e) {
 	e.preventDefault();
 	const form = $(this);
-		$.ajax({
+	$.ajax({
         url: form.attr('action'),
         type: form.attr('method'),
         data: form.serialize(),
