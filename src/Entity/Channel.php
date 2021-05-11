@@ -25,7 +25,7 @@ class Channel
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $idRaspberry;
+    private $idDevice;
 
     public function __toString(): ?string
     {
@@ -49,14 +49,14 @@ class Channel
         return $this;
     }
 
-    public function getIdRaspberry(): ?int
+    public function getIdDevice(): ?int
     {
-        return $this->idRaspberry;
+        return $this->idDevice;
     }
 
-    public function setIdRaspberry(?int $idRaspberry): self
+    public function setIdDevice(?int $idDevice): self
     {
-        $this->idRaspberry = $idRaspberry;
+        $this->idDevice = $idDevice;
 
         return $this;
     }

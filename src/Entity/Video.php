@@ -51,6 +51,11 @@ class Video
      */
     private $status = 0;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $idDevice;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,6 +129,18 @@ class Video
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getIdDevice(): ?int
+    {
+        return $this->idDevice;
+    }
+
+    public function setIdDevice(?int $idDevice): self
+    {
+        $this->idDevice = $idDevice;
 
         return $this;
     }
