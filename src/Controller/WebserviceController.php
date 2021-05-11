@@ -8,7 +8,6 @@ use App\Entity\Video;
 use App\Entity\Channel;
 use App\Entity\Program;
 use App\Entity\Version;
-use Doctrine\DBAL\Schema\View;
 use App\Repository\VideoRepository;
 use App\Repository\ChannelRepository;
 use App\Repository\ProgramRepository;
@@ -216,8 +215,12 @@ class WebserviceController extends AbstractController
     {
         $version = $versionRepository->findOneByTag($tag);
 
-        if (null !== $version) {
+        if (null === $version) {
             $version = new Version();
+            $today = new DateTime();
+            $version->setTag($tag)
+                ->setCreatedAt($today)
+            ;
         }
 
         $version->setStatus($status);
